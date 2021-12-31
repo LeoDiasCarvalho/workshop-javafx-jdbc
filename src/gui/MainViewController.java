@@ -36,7 +36,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		System.out.println("Cadastrou departamento");
+		carregarTela("/gui/ListaDepartamento.fxml");
 	}
 
 	@FXML
