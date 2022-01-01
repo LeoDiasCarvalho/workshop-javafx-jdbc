@@ -19,7 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import model.service.DepartamentoServicos;
+import model.service.DepartmentService;
 
 /**
  * @author leo_dias
@@ -38,9 +38,10 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		carregarTela("/gui/ListaDepartamento.fxml", (ListaDepartamentoController controller) -> {
-			controller.setDepartamentoServico(new DepartamentoServicos());
+		carregarTela("/gui/ListDepartment.fxml", (ListDepartmentController controller) -> {
+			controller.setDepartmentService(new DepartmentService());
 			controller.atualizarTabela();
+
 		});
 	}
 
@@ -51,7 +52,8 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemSobreAction() {
-		carregarTela("/gui/Sobre.fxml", x -> {});
+		carregarTela("/gui/Sobre.fxml", x -> {
+		});
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class MainViewController implements Initializable {
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
-			
+
 			T controller = loader.getController();
 			acaoDeInicializacao.accept(controller);
 

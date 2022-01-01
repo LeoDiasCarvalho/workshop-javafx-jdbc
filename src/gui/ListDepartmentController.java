@@ -17,38 +17,38 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.entidades.Departamento;
-import model.service.DepartamentoServicos;
+import model.entities.Department;
+import model.service.DepartmentService;
 
 /**
  * @author leo_dias
  *
  */
-public class ListaDepartamentoController implements Initializable {
+public class ListDepartmentController implements Initializable {
 
-	private DepartamentoServicos servico;
+	private DepartmentService service;
 
 	@FXML
 	private Button btnNovo;
 
 	@FXML
-	private TableView<Departamento> tableViewDepartamento;
+	private TableView<Department> tableViewDepartment;
 
 	@FXML
-	private TableColumn<Departamento, Integer> tableColunaId;
+	private TableColumn<Department, Integer> tableColunaId;
 
 	@FXML
-	private TableColumn<Departamento, String> tableColunaNome;
-	
-	private ObservableList<Departamento> obsList;
+	private TableColumn<Department, String> tableColunaNome;
+
+	private ObservableList<Department> obsList;
 
 	@FXML
 	public void onBtnNovoAction() {
 		System.out.println("novo departamento");
 	}
 
-	public void setDepartamentoServico(DepartamentoServicos servico) {
-		this.servico = servico;
+	public void setDepartmentService(DepartmentService service) {
+		this.service = service;
 	}
 
 	@Override
@@ -58,21 +58,21 @@ public class ListaDepartamentoController implements Initializable {
 	}
 
 	private void initializeNodes() {
-		tableColunaId.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+		tableColunaId.setCellValueFactory(new PropertyValueFactory<>("Id"));
+		tableColunaNome.setCellValueFactory(new PropertyValueFactory<>("Name"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewDepartamento.prefHeightProperty().bind(stage.heightProperty());
-		tableViewDepartamento.prefWidthProperty().bind(stage.widthProperty());
+		tableViewDepartment.prefHeightProperty().bind(stage.heightProperty());
+		tableViewDepartment.prefWidthProperty().bind(stage.widthProperty());
 	}
-	
+
 	public void atualizarTabela() {
-		if(servico == null) {
+		if (service == null) {
 			throw new IllegalStateException("Servico está nulo");
-		}else {
-			List<Departamento> list = servico.buscarTodos();
+		} else {
+			List<Department> list = service.buscarTodos();
 			obsList = FXCollections.observableArrayList(list);
-			tableViewDepartamento.setItems(obsList);
+			tableViewDepartment.setItems(obsList);
 		}
 	}
 
