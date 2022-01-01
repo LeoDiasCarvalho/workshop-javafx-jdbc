@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.service.DepartamentoServicos;
 
 /**
  * @author leo_dias
@@ -36,7 +37,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartamentoAction() {
-		carregarTela("/gui/ListaDepartamento.fxml");
+		carregarTelaComTabela("/gui/ListaDepartamento.fxml");
 	}
 
 	@FXML
@@ -76,4 +77,28 @@ public class MainViewController implements Initializable {
 
 	}
 
+	public synchronized void carregarTelaComTabela(String nomeCompleto) {
+
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeCompleto));
+			VBox newVBox = loader.load();
+
+			Scene mainScene = Main.getMainScene();
+
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+
+			Node mainMenu = mainVBox.getChildren().get(0);
+			mainVBox.getChildren().clear();
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			ListaDepartamentoController controller = loader.getController();
+			controller.setDepartamentoServico(new DepartamentoServicos());
+			controller.atualizarTabela();
+
+		} catch (IOException e) {
+			Alerts.mostrarAlerta("IOException", "Erro ao carregar view", e.getMessage(), AlertType.ERROR);
+		}
+
+	}
 }
