@@ -5,8 +5,12 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.NonReadableChannelException;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import com.sun.java.swing.action.NewAction;
+import com.sun.tools.javac.jvm.PoolConstant.LoadableConstant;
 
 import application.Main;
 import gui.util.Alerts;
@@ -26,6 +30,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jdk.internal.loader.Loader;
 import model.entities.Department;
 import model.service.DepartmentService;
 
@@ -55,7 +60,8 @@ public class ListDepartmentController implements Initializable {
 	public void onBtnNovoAction(ActionEvent evento) {
 
 		Stage parentStage = Utils.palcoAtual(evento);
-		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
+		Department obj = new Department();	
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);
 	}
 
 	public void setDepartmentService(DepartmentService service) {
@@ -87,10 +93,14 @@ public class ListDepartmentController implements Initializable {
 		}
 	}
 
-	private void createDialogForm(String nomeCompleto, Stage parentStage) {
+	private void createDialogForm(Department obj, String nomeCompleto, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(nomeCompleto));
 			Pane pane = loader.load();
+			
+			DepartmentFormController controller = loader.getController();
+			controller.setDepartment(obj);
+			controller.upDateFormData();
 
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Entre com dados do Departamento");
